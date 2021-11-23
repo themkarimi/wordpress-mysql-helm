@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "wordpress.fullname" . }}
+  labels:
+{{ include "wordpress.labels" . | indent 4 }}
+spec:
+  storageClass: {{ .Values.storage.storageClass }}
+  accessMode:
+    - ReadWriteMany
+  resoruces:
+   request:
+    size: 6Gi
