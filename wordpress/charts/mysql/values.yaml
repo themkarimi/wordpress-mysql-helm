@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: registry.sohato.com/mysql
+  repository: mysql
   tag: latest
   pullPolicy: IfNotPresent
 
