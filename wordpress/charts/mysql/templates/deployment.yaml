@@ -30,17 +30,27 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 80
+            - name: mysql
+              containerPort: 3306
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+          volumeMount:
+            - name: {{ include "mysql.fullname" . }}
+              mountPath:
+                path: "/var/lib/mysql"
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mysql.fullname" . }} 
+                  key: root_password 
+            - name: MYSQL_DATABASE_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mysql.fullname" . }}
+                  key: user_password
+          envFrom:
+             - configMapRef:
+                 name: {{ include "mysql.fullname" .}}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -55,3 +65,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+      volumes:
+        - name: {{ include "mysql.fullname" . }}
+          persistentVolumeClaim:
+            claimName: {{ include "mysql.fullname" . }}

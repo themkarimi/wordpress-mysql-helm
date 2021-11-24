@@ -6,8 +6,8 @@ metadata:
 {{ include "wordpress.labels" . | indent 4 }}
 spec:
   storageClass: {{ .Values.storage.storageClass }}
-  accessMode:
+  accessModes:
     - ReadWriteMany
   resoruces:
-   request:
-    size: 6Gi
+    requests:
+      storage: 6Gi

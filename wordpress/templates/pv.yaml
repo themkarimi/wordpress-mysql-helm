@@ -3,7 +3,7 @@ kind: PersistentVolume
 metadata:
   name: {{ include "wordpress.fullname" . }}
 spec:
-  storageClassName: local-storage
+  storageClassName: {{ .Values.storage.storageClass }}
   capacity:
     storage: 10Gi
   accessModes:
