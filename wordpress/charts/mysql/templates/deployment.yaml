@@ -33,10 +33,9 @@ spec:
             - name: mysql
               containerPort: 3306
               protocol: TCP
-          volumeMount:
+          volumeMounts:
             - name: {{ include "mysql.fullname" . }}
-              mountPath:
-                path: "/var/lib/mysql"
+              mountPath: "/var/lib/mysql"
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:

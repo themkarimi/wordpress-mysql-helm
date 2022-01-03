@@ -31,9 +31,10 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: WORDPRESS_DB_PASSWORD
-              secretKeyRef:
-                name: {{ include "wordpress.fullname" . }}
-                key: password
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "wordpress.fullname" . }}
+                  key: password
           envFrom:
             - configMapRef:
                 name: {{ include "wordpress.fullname" . }}
@@ -42,9 +43,8 @@ spec:
               containerPort: 80
               protocol: TCP
           volumeMounts:
-            mountPath:
-              name: {{ include "wordpress.fullname" . }}
-              path: "/var/www/wordpress"
+          - mountPath: "/var/www/wordpress"
+            name: {{ include "wordpress.fullname" . }}
           livenessProbe:
             httpGet:
               path: /

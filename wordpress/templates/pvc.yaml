@@ -5,9 +5,9 @@ metadata:
   labels:
 {{ include "wordpress.labels" . | indent 4 }}
 spec:
-  storageClass: {{ .Values.storage.storageClass }}
+  storageClassName: {{ .Values.storage.storageClass }}
   accessModes:
     - ReadWriteMany
-  resoruces:
+  resources:
     requests:
       storage: 6Gi
